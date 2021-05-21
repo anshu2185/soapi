@@ -1,0 +1,16 @@
+package {{{configPackage}}};
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import {{{controllerPackage}}}.{{{porttype}}}Controller;
+
+
+@Configuration
+public class ApplicationConfiguration {
+
+	@Bean
+	public {{{porttype}}}Controller {{{portTypeName}}}Controller() {
+		return new {{{porttype}}}Controller();
+	}
+}

@@ -2,16 +2,16 @@ package {{basePackage}};
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * starts the spring boot application
- * @author pkcoe
+ * @author pkdigitalengineering
  *
  */
  
 @SpringBootApplication
-
+@ComponentScan("{{{basePackage}}}")
 public class {{serviceName}}Application {
 
   public static void main(String[] args) {

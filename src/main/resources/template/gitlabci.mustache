@@ -1,0 +1,20 @@
+image: maven:3.3.9-jdk-8
+include:
+  project: 'poc78/templates' 
+  file: 
+    - 'mavenbuild.yml'
+    - 'docker-build.yml'
+    - 'deploy-kubernetes.yml'
+stages:
+  - build
+  - docker-build
+  - deploy-kubernetes
+build:
+  stage: build 
+  extends: .build
+docker-build:
+    stage: docker-build
+    extends: .docker-build
+deploy-kubernetes:
+   stage: deploy-kubernetes
+   extends: .deploy-kubernetes
