@@ -1,0 +1,19 @@
+package {{{basePackage}}};
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+import {{{configPackage}}}.ApplicationConfiguration;
+import {{{endpointPackage}}}.{{{porttype}}}Endpoint;
+import {{{packageNameFromNamespace}}}.{{{porttype}}};
+
+@Configuration
+@Import(ApplicationConfiguration.class)
+public class ApplicationTestConfiguration {
+
+    @Bean
+    public {{{porttype}}} {{{portTypeName}}}() {
+        return new {{{porttype}}}Endpoint();
+    }
+}

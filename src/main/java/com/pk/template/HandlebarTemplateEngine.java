@@ -3,6 +3,7 @@ package com.pk.template;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.function.Function;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.internal.lang3.StringUtils;
@@ -21,6 +22,7 @@ public class HandlebarTemplateEngine {
 		return hTemplate.apply(templateData);
 	}
 
+	
 	public String getName() {
 		return "mustache";
 	}
@@ -42,7 +44,7 @@ public class HandlebarTemplateEngine {
 		}
 		final Handlebars handlebars = new Handlebars(templateLoader);
 		handlebars.prettyPrint(true);
-
+		handlebars.registerHelpers(new HelperSource());
 		return handlebars.compile(templateFile);
 	}
 

@@ -1,0 +1,20 @@
+package {{{basePackage}}};
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import {{{configPackage}}}.WebServiceConfiguration;
+import {{{packageNameFromNamespace}}}.{{{porttype}}};
+
+@Configuration
+public class WebServiceIntegrationTestConfiguration {
+    
+    @Bean
+    public {{{porttype}}} {{{portTypeName}}}IntegrationTestClient() {
+        JaxWsProxyFactoryBean jaxWsProxyFactory = new JaxWsProxyFactoryBean();
+        jaxWsProxyFactory.setServiceClass({{{porttype}}}.class);
+        jaxWsProxyFactory.setAddress("http://localhost:8080" + WebServiceConfiguration.BASE_URL + WebServiceConfiguration.SERVICE_URL);
+        return ({{{porttype}}}) jaxWsProxyFactory.create();
+    }
+}

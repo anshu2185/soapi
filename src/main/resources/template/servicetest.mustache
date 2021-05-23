@@ -1,0 +1,39 @@
+package {{{basePackage}}}.test;
+
+import static {{{basePackage}}}.utils.TestHelper.generateDummyRequest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import {{{basePackage}}}.ApplicationTestConfiguration;
+import {{{basePackage}}}.endpoint.{{{portType}}}Endpoint;
+import {{{packageNameFromNamespace}}}.{{{faultName}}};
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=ApplicationTestConfiguration.class)
+public class {{{portType}}}Test {
+
+    @Autowired
+    private {{{portType}}}Endpoint {{{portTypeName}}}Endpoint;
+    
+    {{#each opName}}
+    @Test
+    public void {{this}}() throws {{{faultName}}} {
+        // Given
+         generateDummyRequest();
+        
+        // When
+       //  {{{portTypeName}}}TestClient.{{this}}(<<Input type>>);
+        
+        // Then
+       // assertNotNull(<<Input Type>>);
+    }
+   
+{{/each}}
+}

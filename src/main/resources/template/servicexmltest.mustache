@@ -1,0 +1,48 @@
+package {{{basePackage}}}.test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.core.io.Resource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import {{{basePackage}}}.SimpleBootCxfSystemTestApplication;
+import {{{packageNameFromNamespace}}}.{{{faultName}}};
+import {{{packageNameFromNamespace}}}.{{{portType}}};
+import {{{basePackage}}}.utils.XmlUtils;
+import {{{basePackage}}}.utils.XmlUtilsException;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes=SimpleBootCxfSystemTestApplication.class)
+@WebIntegrationTest("server.port:8090")
+public class {{{portType}}}XmlFileSystemTest {
+
+    @Autowired
+    private {{{portType}}} {{{portTypeName}}}SystemTestClient;
+    
+    {{#each opNameOriginal}}
+    @Value(value="classpath:requests/{{this}}Test.xml")
+    private Resource {{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}TestXml;
+    {{/each}}
+    {{#each opNameOriginal}}    
+    @Test
+    public void {{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}() throws {{{faultName}}}, XmlUtilsException, IOException {
+        // Given
+        {{this}} {{#firstLetterSmall}}{{this}}{{/firstLetterSmall}} = XmlUtils.readSoapMessageFromStreamAndUnmarshallBody2Object({{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}TestXml.getInputStream(), {{this}}.class);
+        
+        // When
+        // {{{portTypeName}}}SystemTestClient.{{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}({{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}.<<request Type>>);
+        
+        // Then
+        //assertNotNull(<<reuqest type>>);
+        
+    }
+  {{/each}}  
+}

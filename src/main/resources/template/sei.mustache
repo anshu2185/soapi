@@ -1,44 +1,29 @@
-package {{{endpointPackage}}};
+package {{{basePackage}}}.endpoint;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import {{{controllerPackage}}}.WeatherServiceController;
-import pk.digitalengineering.namespace.weatherservice.WeatherException;
-import pk.digitalengineering.namespace.weatherservice.WeatherService;
+import {{{basePackage}}}.controller.{{{portType}}}Controller;
+import {{{packageNameFromNamespace}}}.{{{faultName}}};
+import {{{packageNameFromNamespace}}}.{{{portType}}};
 
-import pk.digitalengineering.namespace.weatherservice.general.ForecastRequest;
-import pk.digitalengineering.namespace.weatherservice.general.ForecastReturn;
-import pk.digitalengineering.namespace.weatherservice.general.WeatherInformationReturn;
-import pk.digitalengineering.namespace.weatherservice.general.WeatherReturn;
+public class {{{portType}}}Endpoint implements {{{portType}}} {
 
-
-public class WeatherServiceEndpoint implements WeatherService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(WeatherServiceEndpoint.class);
+    private static final Logger LOG = LoggerFactory.getLogger({{{portType}}}Endpoint.class);
 
     @Autowired
-    private WeatherServiceController weatherServiceController;
+    private {{{portType}}}Controller {{{portTypeName}}}Controller;
     
+    {{#each opName}}
     @Override
-    public ForecastReturn getCityForecastByZIP(ForecastRequest forecastRequest) throws WeatherException {
-        LOG.debug("Method getCityForecastByZIP() was called. Processing the Request in the backend");
+    public <<return type>> {{this}}(<<input type>>) throws {{{faultName}}} {
+        LOG.debug("Method {{this}}() was called. Processing the Request in the backend");
 
-        return weatherServiceController.getCityForecastByZIP(forecastRequest);
+        return {{{portTypeName}}}Controller.{{this}}(<<input type>>);
     }
     
-    @Override
-    public WeatherInformationReturn getWeatherInformation(String zip) throws WeatherException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public WeatherReturn getCityWeatherByZIP(ForecastRequest forecastRequest) throws WeatherException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+   {{/each}}
 
 }
 
