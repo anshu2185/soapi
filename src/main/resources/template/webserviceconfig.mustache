@@ -11,7 +11,7 @@ import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import {{{endpointPackage}}}.{{{porttype}}}Endpoint;
+import {{{endpointPackage}}}.{{{wsdlServiceName}}}ServiceEndpoint;
 import {{{packageNameFromNamespace}}}.{{{wsdlServiceName}}};
 import {{{packageNameFromNamespace}}}.{{{porttype}}};
 import {{{loggingPackage}}}.LoggingInInterceptorXmlOnly;
@@ -42,7 +42,7 @@ public class WebServiceConfiguration {
     
     @Bean
     public {{{porttype}}} {{{portTypeName}}}() {
-    	return new {{{porttype}}}Endpoint();
+    	return new {{{wsdlServiceName}}}ServiceEndpoint();
     }
     
     @Bean

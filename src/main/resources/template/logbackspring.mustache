@@ -12,7 +12,7 @@
 		<!-- encoder is required -->
 	   <encoder class="net.logstash.logback.encoder.LogstashEncoder">
 	   	<includeCallerData>true</includeCallerData>
-	   	<customFields>{"service_name":"WeatherService 1.0"}</customFields>
+	   	<customFields>{"service_name":"{{{wsdlServiceName}}}"}</customFields>
 	   	<fieldNames>
 	   		<message>log-msg</message>
 	   	</fieldNames>
@@ -21,7 +21,7 @@
 	</appender>
 	
 	<appender name="file" class="ch.qos.logback.core.FileAppender">
-      <file> {{{serviceName}}}-service.log </file>
+      <file> {{{wsdlServiceName}}}-service.log </file>
       <append>true</append>
       <encoder>
          <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>

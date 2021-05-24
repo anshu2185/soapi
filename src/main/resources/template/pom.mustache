@@ -36,7 +36,7 @@
 
 	<build>
         <plugins>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
@@ -51,7 +51,38 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+			<!-- Generate Java-Classes inkl. JAXB-Bindings from WSDL & imported XSD -->
+			<!-- See Doku at http://www.mojohaus.org/jaxws-maven-plugin/usage.html -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<!-- See http://www.mojohaus.org/jaxws-maven-plugin/wsimport-mojo.html -->
+					<wsdlDirectory>${project.basedir}/src/main/resources/wsdl</wsdlDirectory>
+					<sourceDestDir>target/generated-sources/wsdlimport/{{{serviceName}}}</sourceDestDir>
+					<!-- For accessing the imported schema, see https://netbeans.org/bugzilla/show_bug.cgi?id=241570 -->
+					<vmArgs>
+						<vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+					</vmArgs>
+							<bindingFiles>
+								<bindingFile>${project.basedir}/src/main/resources/binding.xml</bindingFile>
+								
+							</bindingFiles>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
             <!-- Skip sample project in Maven release https://stackoverflow.com/a/14297315/4964553 -->
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>

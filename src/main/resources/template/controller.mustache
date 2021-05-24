@@ -1,13 +1,9 @@
-package {{{controllerPackage}}};
-
-//import pk.digitalengineering.namespace.weatherservice.general.ForecastRequest;
-//import pk.digitalengineering.namespace.weatherservice.general.ForecastReturn;
+package {{{basePackage}}}.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-//import com.digitalengineering.pk.transformation.GetCityForecastByZIPOutMapper;
 
 /*
  *  Example-Controller:
@@ -17,16 +13,13 @@ import org.springframework.stereotype.Component;
  *  nothing or only the mapping has to be changed
  */ 
 @Component
-public class {{{porttype}}}Controller {
+public class {{{wsdlServiceName}}}ServiceController {
 
-    private static final Logger LOG = LoggerFactory.getLogger({{{porttype}}}Controller.class);
+    private static final Logger LOG = LoggerFactory.getLogger({{{wsdlServiceName}}}ServiceController.class);
 
-    public ForecastReturn getCityForecastByZIP(ForecastRequest forecastRequest) throws BusinessException {}
-	
-	/*
-	 * Other Methods would follow here...
-	 */
-	//public WeatherReturn getCityWeatherByZIP(ForecastRequest forecastRequest) throws BusinessException {}
+{{#each wsdlproperties}}
+    @Override
+    public {{returnType}} {{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}({{inputParam}} {{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}}) throws {BusinessException {}
 
-	//public WeatherInformationReturn getWeatherInformation(String zip) throws BusinessException {}
+   {{/each}}
 }

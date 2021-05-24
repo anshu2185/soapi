@@ -27,22 +27,23 @@ public class {{{portType}}}XmlFileSystemTest {
     @Autowired
     private {{{portType}}} {{{portTypeName}}}SystemTestClient;
     
-    {{#each opNameOriginal}}
-    @Value(value="classpath:requests/{{this}}Test.xml")
-    private Resource {{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}TestXml;
+    {{#each wsdlproperties}}
+    @Value(value="classpath:requests/{{operationName}}Test.xml")
+    private Resource {{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}TestXml;
     {{/each}}
-    {{#each opNameOriginal}}    
+    {{#each wsdlproperties}}    
     @Test
-    public void {{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}() throws {{{faultName}}}, XmlUtilsException, IOException {
+    public void {{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}() throws {{{faultName}}}, XmlUtilsException, IOException {
         // Given
-        {{this}} {{#firstLetterSmall}}{{this}}{{/firstLetterSmall}} = XmlUtils.readSoapMessageFromStreamAndUnmarshallBody2Object({{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}TestXml.getInputStream(), {{this}}.class);
+        {{inputParam}} {{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}} = XmlUtils.readSoapMessageFromStreamAndUnmarshallBody2Object({{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}TestXml.getInputStream(), {{inputParam}}.class);
         
         // When
-        // {{{portTypeName}}}SystemTestClient.{{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}({{#firstLetterSmall}}{{this}}{{/firstLetterSmall}}.<<request Type>>);
+        // {{returnType}} {{#firstLetterSmallReturn}}{{returnType}}{{/firstLetterSmallReturn}} = {{{portTypeName}}}SystemTestClient.{{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}({{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}.<<rmethod>>);
         
         // Then
-        //assertNotNull(<<reuqest type>>);
+        //assertNotNull({{#firstLetterSmallReturn}}{{returnType}}{{/firstLetterSmallReturn}});
         
     }
   {{/each}}  
 }
+

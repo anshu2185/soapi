@@ -15,16 +15,14 @@ public class {{{portType}}}Endpoint implements {{{portType}}} {
     @Autowired
     private {{{portType}}}Controller {{{portTypeName}}}Controller;
     
-    {{#each opName}}
+    {{#each wsdlproperties}}
     @Override
-    public <<return type>> {{this}}(<<input type>>) throws {{{faultName}}} {
-        LOG.debug("Method {{this}}() was called. Processing the Request in the backend");
+    public {{returnType}} {{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}({{inputParam}} {{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}}) throws {{{faultName}}} {
+        LOG.debug("Method {{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}() was called. Processing the Request in the backend");
 
-        return {{{portTypeName}}}Controller.{{this}}(<<input type>>);
+        return {{{portTypeName}}}Controller.{{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}({{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}});
     }
     
    {{/each}}
-
-}
 
 }

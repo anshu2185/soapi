@@ -3,14 +3,14 @@ package {{{configPackage}}};
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import {{{controllerPackage}}}.{{{porttype}}}Controller;
+import {{{controllerPackage}}}.{{{wsdlServiceName}}}ServiceController;
 
 
 @Configuration
 public class ApplicationConfiguration {
 
 	@Bean
-	public {{{porttype}}}Controller {{{portTypeName}}}Controller() {
-		return new {{{porttype}}}Controller();
+	public {{{wsdlServiceName}}}ServiceController {{{portTypeName}}}Controller() {
+		return new {{{wsdlSvcNamefirstLetterSmall}}}ServiceController();
 	}
 }

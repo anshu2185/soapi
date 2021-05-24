@@ -33,4 +33,11 @@ public class WsdlProperties {
 		this.returnType = returnType;
 	}
 
+	@Override
+	public String toString() {
+		return "WsdlProperties [operationName=" + operationName + ", inputParam=" + inputParam + ", returnType="
+				+ returnType + "]";
+	}
+	
+
 }

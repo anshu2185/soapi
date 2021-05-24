@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import {{{configPackage}}}.ApplicationConfiguration;
-import {{{endpointPackage}}}.{{{porttype}}}Endpoint;
+import {{{endpointPackage}}}.{{{wsdlServiceName}}}ServiceEndpoint;
 import {{{packageNameFromNamespace}}}.{{{porttype}}};
 
 @Configuration
@@ -14,6 +14,6 @@ public class ApplicationTestConfiguration {
 
     @Bean
     public {{{porttype}}} {{{portTypeName}}}() {
-        return new {{{porttype}}}Endpoint();
+        return new {{{wsdlServiceName}}}ServiceEndpoint();
     }
 }

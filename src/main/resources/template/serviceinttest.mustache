@@ -22,17 +22,17 @@ public class {{{portType}}}IntegrationTest {
     @Autowired
     private {{{portType}}} {{{portTypeName}}}IntegrationTestClient;
     
-    {{#each opName}}
+     {{#each wsdlproperties}}
     @Test
-    public void {{this}}() throws {{{faultName}}} {
+    public void {{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}() throws {{{faultName}}} {
         // Given
-         generateDummyRequest();
+         {{inputParam}} {{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}} = generateDummyRequest();
         
         // When
-       //  {{{portTypeName}}}TestClient.{{this}}(<<Input type>>);
+       // {{returnType}} {{#firstLetterSmallReturn}}{{returnType}}{{/firstLetterSmallReturn}} = {{{portTypeName}}}TestClient.{{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}({{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}});
         
         // Then
-       // assertNotNull(<<Input Type>>);
+       // assertNotNull({{#firstLetterSmallReturn}}{{returnType}}{{/firstLetterSmallReturn}});
     }
    
 {{/each}}
