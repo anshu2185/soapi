@@ -1,23 +1,26 @@
 package {{{basePackage}}}.test;
 
-import static {{{basePackage}}}.utils.TestHelper.generateDummyRequest;
+{{#each wsdlproperties}}
+import static {{{basePackage}}}.utils.TestHelper.generateDummyRequest{{inputParam}};
+{{/each}}
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+{{#each wsdlproperties}}
+import {{{namespace}}}.{{returnType}};
+import {{{namespace}}}.{{inputParam}};
+{{/each}}
 import {{{basePackage}}}.SimpleBootCxfSystemTestApplication;
 import {{{packageNameFromNamespace}}}.{{{faultName}}};
 import {{{packageNameFromNamespace}}}.{{{portType}}};
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes=SimpleBootCxfSystemTestApplication.class)
-@WebIntegrationTest("server.port:8090")
+@SpringBootTest(classes=SimpleBootCxfSystemTestApplication.class)
 public class {{{portType}}}SystemTest {
 
     @Autowired
@@ -27,7 +30,7 @@ public class {{{portType}}}SystemTest {
     @Test
     public void {{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}() throws {{{faultName}}} {
         // Given
-         {{inputParam}} {{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}} = generateDummyRequest();
+         {{inputParam}} {{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}} = generateDummyRequest{{inputParam}}();
         
         // When
        // {{returnType}} {{#firstLetterSmallReturn}}{{returnType}}{{/firstLetterSmallReturn}} = {{{portTypeName}}}TestClient.{{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}({{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}});

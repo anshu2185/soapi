@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  *
  */
  
-@SpringBootApplication
+@SpringBootApplication(exclude=de.codecentric.cxf.configuration.CxfAutoConfiguration.class)
 @ComponentScan("{{{basePackage}}}")
 public class {{serviceName}}Application {
 

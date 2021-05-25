@@ -51,13 +51,14 @@ public class SoapProcessor {
 	private static String transformationPackage = "com.digitalengineering.pk.transformation";
 	private static String controllerPackage = "com.digitalengineering.pk.controller";
 	private static String endpointPackage = "com.digitalengineering.pk.endpoint";
+	private static String qname = null;
 
 	public static String getBasePackage() {
 		return basePackage;
 	}
 
-	public static int process(List<Path> resourceFileList, String serviceName, String output, ProgressBar pb)
-			throws IOException {
+	public static int process(List<Path> resourceFileList, String serviceName, String output, ProgressBar pb,
+			String wsdlLocation) throws IOException {
 		File outputFolder = null;
 
 		if (output != null) {
@@ -83,7 +84,8 @@ public class SoapProcessor {
 		folders.add(sourceFolder + "/" + controllerPackage.replace(".", File.separator));
 		createFolder(folders, outputFolder);
 		pb.stepTo(600);
-		copyWsdl(resourceFileList, outputFolder.getPath() + "/" + wsdlFolder + "/");
+		// copyWsdl(resourceFileList, outputFolder.getPath() + "/" + wsdlFolder + "/");
+		copyWsdlAsitis(wsdlLocation, outputFolder.getPath() + "/" + wsdlFolder + "/");
 		createConfigurationFiles(resourceFileList, outputFolder, pb);
 		List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
 		supportingFiles.add(new SupportingFile("starterapplication.mustache",
@@ -112,6 +114,17 @@ public class SoapProcessor {
 		generateFiles(supportingFiles, params, pb);
 		pb.stepTo(2500);
 		return 0;
+	}
+
+	private static void copyWsdlAsitis(String wsdlLocation, String wsdlFolder) {
+		try {
+			System.out.println("wsdlFolder::"+wsdlFolder);
+			System.out.println("wsdlLocation::"+wsdlLocation);
+			FileUtils.copyDirectory(new File(wsdlLocation), new File(wsdlFolder));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private static List<WsdlProperties> generateMethodandReturnTypes(List<Path> resourceFileList) {
@@ -155,10 +168,15 @@ public class SoapProcessor {
 					}
 
 				}
+				boolean check = false;
 				if (l1.isEmpty()) {
 					for (Message msg : defs.getMessages()) {
 						for (Part part : msg.getParts()) {
 							if (part.getElement() != null) {
+								if(!check) {
+									qname = part.getElement().getQname().getNamespaceURI();
+									check = true;
+								}
 								l1.add(part.getElement().getQname().getLocalPart());
 							}
 						}
@@ -275,7 +293,7 @@ public class SoapProcessor {
 					supportingFiles.add(new SupportingFile("cxfteststarter.mustache",
 							(outputFolder.getPath() + "/" + testFolder + "/"
 									+ basePackage.replace(".", File.separator)),
-							"SimpleBootCxfTestApplication" + ".java"));
+							"SimpleBootCxfSystemTestApplication" + ".java"));
 					supportingFiles.add(new SupportingFile("webserviceinttestconfig.mustache",
 							(outputFolder.getPath() + "/" + testFolder + "/"
 									+ basePackage.replace(".", File.separator)),
@@ -293,10 +311,7 @@ public class SoapProcessor {
 							"xmlutilsexception.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
 									+ basePackage.replace(".", File.separator) + "/" + "utils"),
 							"XmlUtilsException" + ".java"));
-					supportingFiles.add(new SupportingFile(
-							"testhelper.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
-									+ basePackage.replace(".", File.separator) + "/" + "utils"),
-							"TestHelper" + ".java"));
+					
 					supportingFiles.add(new SupportingFile("logbackspring.mustache",
 							(outputFolder.getPath() + "/" + resourceFolder), "logback-spring" + ".xml"));
 					params.put("configPackage", configPackage);
@@ -343,24 +358,22 @@ public class SoapProcessor {
 						opName.add(new String(c));
 						opNameOriginal.add(bop.getName());
 					}
-					/*supportingFiles.add(new SupportingFile(
-							"serviceinttest.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
-									+ basePackage.replace(".", File.separator) + "/" + "test"),
-							bindingType + "IntegrationTest" + ".java"));
-					supportingFiles.add(new SupportingFile(
-							"servicesystemtest.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
-									+ basePackage.replace(".", File.separator) + "/" + "test"),
-							bindingType + "SystemTest" + ".java"));
-					supportingFiles.add(new SupportingFile(
-							"servicetest.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
-									+ basePackage.replace(".", File.separator) + "/" + "test"),
-							bindingType + "Test" + ".java"));
-					supportingFiles.add(new SupportingFile(
-							"servicexmltest.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
-									+ basePackage.replace(".", File.separator) + "/" + "test"),
-							bindingType + "XmlFileSystemTest" + ".java"));*/
+					/*
+					 * supportingFiles.add(new SupportingFile( "serviceinttest.mustache",
+					 * (outputFolder.getPath() + "/" + testFolder + "/" + basePackage.replace(".",
+					 * File.separator) + "/" + "test"), bindingType + "IntegrationTest" + ".java"));
+					 * supportingFiles.add(new SupportingFile( "servicesystemtest.mustache",
+					 * (outputFolder.getPath() + "/" + testFolder + "/" + basePackage.replace(".",
+					 * File.separator) + "/" + "test"), bindingType + "SystemTest" + ".java"));
+					 * supportingFiles.add(new SupportingFile( "servicetest.mustache",
+					 * (outputFolder.getPath() + "/" + testFolder + "/" + basePackage.replace(".",
+					 * File.separator) + "/" + "test"), bindingType + "Test" + ".java"));
+					 * supportingFiles.add(new SupportingFile( "servicexmltest.mustache",
+					 * (outputFolder.getPath() + "/" + testFolder + "/" + basePackage.replace(".",
+					 * File.separator) + "/" + "test"), bindingType + "XmlFileSystemTest" +
+					 * ".java"));
+					 */
 
-					
 					params.put("faultName", faultName);
 					params.put("basePackage", basePackage);
 					params.put("opName", opName);
@@ -368,7 +381,7 @@ public class SoapProcessor {
 					params.put("portTypeName", new String(pt));
 					params.put("portType", bindingType);
 					params.put("opNameOriginal", opNameOriginal);
-					//generateFiles(supportingFiles, params, pb);
+					// generateFiles(supportingFiles, params, pb);
 					break;
 				}
 
@@ -399,6 +412,11 @@ public class SoapProcessor {
 						"servicexmltest.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
 								+ basePackage.replace(".", File.separator) + "/" + "test"),
 						wsdlServiceName + "ServiceXmlFileSystemTest" + ".java"));
+				supportingFiles.add(new SupportingFile(
+						"testhelper.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
+								+ basePackage.replace(".", File.separator) + "/" + "utils"),
+						"TestHelper" + ".java"));
+				params.put("namespace", XJC.getDefaultPackageName(qname));
 				params.put("basePackage", basePackage);
 				params.put("wsdlServiceName", wsdlServiceName);
 				params.put("packageNameFromNamespace", packageNameFromNamespace);

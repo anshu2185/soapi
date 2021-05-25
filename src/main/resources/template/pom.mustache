@@ -11,8 +11,8 @@
 	<groupId>{{{groupId}}}</groupId>
 	<artifactId>{{{serviceName}}}</artifactId>
 	<version>{{{artifactVersion}}}</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>{{{serviceName}}}</name>
+	<description>Sample cxf spring boot soap service</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -32,6 +32,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
 
 	<build>

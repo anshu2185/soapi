@@ -1,10 +1,15 @@
 package {{{basePackage}}}.utils;
 
-
+{{#each wsdlproperties}}
+import {{{namespace}}}.{{returnType}};
+import {{{namespace}}}.{{inputParam}};
+{{/each}}
 
 public class TestHelper {
-
-    public static void generateDummyRequest() {
+{{#each wsdlproperties}}
+    public static {{inputParam}} generateDummyRequest{{inputParam}}() {
         // set your dummy request and change return type accordingly
+        return null;
     }
+ {{/each}}   
 }

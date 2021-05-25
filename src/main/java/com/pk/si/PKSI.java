@@ -79,7 +79,7 @@ public class PKSI implements Runnable {
 					nameOfService = "CXFSpring";
 				}
 				try (ProgressBar pb = new ProgressBar("Scaffolding SOAP services", 2000)) {
-					SoapProcessor.process(wsdlFiles, nameOfService, outputLocation,pb);
+					SoapProcessor.process(wsdlFiles, nameOfService, outputLocation,pb,wsdlLocation);
 				}
 				System.out.println(TEXT_GREEN+"Scaffolding Done !!! ");
 				//new Tree().print(outputLocation);

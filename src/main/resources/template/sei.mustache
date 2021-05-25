@@ -3,7 +3,10 @@ package {{{basePackage}}}.endpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+{{#each wsdlproperties}}
+import {{{namespace}}}.{{returnType}};
+import {{{namespace}}}.{{inputParam}};
+{{/each}}
 import {{{basePackage}}}.controller.{{{portType}}}Controller;
 import {{{packageNameFromNamespace}}}.{{{faultName}}};
 import {{{packageNameFromNamespace}}}.{{{portType}}};

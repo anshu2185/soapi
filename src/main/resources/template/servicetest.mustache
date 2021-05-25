@@ -1,6 +1,8 @@
 package {{{basePackage}}}.test;
 
-import static {{{basePackage}}}.utils.TestHelper.generateDummyRequest;
+{{#each wsdlproperties}}
+import static {{{basePackage}}}.utils.TestHelper.generateDummyRequest{{inputParam}};
+{{/each}}
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -9,7 +11,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+{{#each wsdlproperties}}
+import {{{namespace}}}.{{returnType}};
+import {{{namespace}}}.{{inputParam}};
+{{/each}}
 import {{{basePackage}}}.ApplicationTestConfiguration;
 import {{{basePackage}}}.endpoint.{{{portType}}}Endpoint;
 import {{{packageNameFromNamespace}}}.{{{faultName}}};
@@ -26,7 +31,7 @@ public class {{{portType}}}Test {
     @Test
     public void {{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}() throws {{{faultName}}} {
         // Given
-         {{inputParam}} {{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}} = generateDummyRequest();
+         {{inputParam}} {{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}} = generateDummyRequest{{inputParam}}();
         
         // When
        // {{returnType}} {{#firstLetterSmallReturn}}{{returnType}}{{/firstLetterSmallReturn}} = {{{portTypeName}}}TestClient.{{#firstLetterSmallop}}{{operationName}}{{/firstLetterSmallop}}({{#firstLetterSmallInput}}{{inputParam}}{{/firstLetterSmallInput}});

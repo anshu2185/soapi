@@ -9,8 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import {{{basePackage}}}.SimpleBootCxfSystemTestApplication;
@@ -18,10 +17,12 @@ import {{{packageNameFromNamespace}}}.{{{faultName}}};
 import {{{packageNameFromNamespace}}}.{{{portType}}};
 import {{{basePackage}}}.utils.XmlUtils;
 import {{{basePackage}}}.utils.XmlUtilsException;
-
+{{#each wsdlproperties}}
+import {{{namespace}}}.{{returnType}};
+import {{{namespace}}}.{{inputParam}};
+{{/each}}
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes=SimpleBootCxfSystemTestApplication.class)
-@WebIntegrationTest("server.port:8090")
+@SpringBootTest(classes=SimpleBootCxfSystemTestApplication.class)
 public class {{{portType}}}XmlFileSystemTest {
 
     @Autowired
