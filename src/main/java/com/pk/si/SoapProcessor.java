@@ -118,8 +118,8 @@ public class SoapProcessor {
 
 	private static void copyWsdlAsitis(String wsdlLocation, String wsdlFolder) {
 		try {
-			System.out.println("wsdlFolder::"+wsdlFolder);
-			System.out.println("wsdlLocation::"+wsdlLocation);
+			System.out.println("wsdlFolder::" + wsdlFolder);
+			System.out.println("wsdlLocation::" + wsdlLocation);
 			FileUtils.copyDirectory(new File(wsdlLocation), new File(wsdlFolder));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -173,7 +173,7 @@ public class SoapProcessor {
 					for (Message msg : defs.getMessages()) {
 						for (Part part : msg.getParts()) {
 							if (part.getElement() != null) {
-								if(!check) {
+								if (!check) {
 									qname = part.getElement().getQname().getNamespaceURI();
 									check = true;
 								}
@@ -311,7 +311,7 @@ public class SoapProcessor {
 							"xmlutilsexception.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
 									+ basePackage.replace(".", File.separator) + "/" + "utils"),
 							"XmlUtilsException" + ".java"));
-					
+
 					supportingFiles.add(new SupportingFile("logbackspring.mustache",
 							(outputFolder.getPath() + "/" + resourceFolder), "logback-spring" + ".xml"));
 					params.put("configPackage", configPackage);
@@ -412,11 +412,14 @@ public class SoapProcessor {
 						"servicexmltest.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
 								+ basePackage.replace(".", File.separator) + "/" + "test"),
 						wsdlServiceName + "ServiceXmlFileSystemTest" + ".java"));
-				supportingFiles.add(new SupportingFile(
-						"testhelper.mustache", (outputFolder.getPath() + "/" + testFolder + "/"
-								+ basePackage.replace(".", File.separator) + "/" + "utils"),
-						"TestHelper" + ".java"));
-				params.put("namespace", XJC.getDefaultPackageName(qname));
+				supportingFiles
+						.add(new SupportingFile("testhelper.mustache",
+								(outputFolder.getPath() + "/" + testFolder + "/"
+										+ basePackage.replace(".", File.separator) + "/" + "utils"),
+								"TestHelper" + ".java"));
+				if (qname != null) {
+					params.put("namespace", XJC.getDefaultPackageName(qname));
+				}
 				params.put("basePackage", basePackage);
 				params.put("wsdlServiceName", wsdlServiceName);
 				params.put("packageNameFromNamespace", packageNameFromNamespace);

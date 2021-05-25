@@ -11,9 +11,9 @@ import {{{basePackage}}}.controller.{{{portType}}}Controller;
 import {{{packageNameFromNamespace}}}.{{{faultName}}};
 import {{{packageNameFromNamespace}}}.{{{portType}}};
 
-public class {{{portType}}}Endpoint implements {{{portType}}} {
+public class {{{wsdlServiceName}}}ServiceEndpoint implements {{{portType}}} {
 
-    private static final Logger LOG = LoggerFactory.getLogger({{{portType}}}Endpoint.class);
+    private static final Logger LOG = LoggerFactory.getLogger({{{wsdlServiceName}}}ServiceEndpoint.class);
 
     @Autowired
     private {{{portType}}}Controller {{{portTypeName}}}Controller;
